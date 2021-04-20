@@ -1,9 +1,16 @@
 #!/usr/bin/python3
 
+import sys
+sys.setrecursionlimit(9000000)
+
 class Solution:
 
     def _findStr(self, i, j) -> int:
         if i == j:
+            if self.currentMaxLength < 1:
+                self.currentMaxLength = 1
+                self.maxX = i
+                self.maxY = j
             return 1
         elif i > j:
             return 0
@@ -35,12 +42,10 @@ class Solution:
         # pTb: left: 1, right 2, both:0, init: -1
         strlen = -1
 
-        if self._findStr(i + 1, j) >= self._findStr(i, j - 1):
-            strlen = self._findStr(i + 1, j)
-            self.pTb[i][j] = 1
-        else:
+        if self._findStr(i, j - 1) >= self._findStr(i + 1, j):
             strlen = self._findStr(i, j - 1)
-            self.pTb[i][j] = 2
+        else:
+            strlen = self._findStr(i + 1, j)
 
         if self.input[i] == self.input[j]:
             midSide = self._findStr(i + 1, j - 1)
@@ -48,51 +53,39 @@ class Solution:
 
             if midSide >= midLen:
                 strlen = midSide + (1 if i == j else 2)
-                self.pTb[i][j] = 0
+
+        if strlen > self.currentMaxLength:
+            self.currentMaxLength = strlen
+            self.maxX = i
+            self.maxY = j
 
         self.dp[i][j] = strlen
 
         return self.dp[i][j]
-
-
-    def _printStr(self, i, j):
-        s = ''
-        if (j - i) <= 1:
-            return self.input[i:(j + 1)]
-
-        if i == j:
-            return self.input[i]
-        elif 0 == self.pTb[i][j]:
-            return self.input[i: (i+1)] + \
-                self._printStr(i + 1, j - 1) + \
-                self.input[j: (j+1)]
-        elif 1 == self.pTb[i][j]:
-            return self._printStr(i + 1, j)
-
-        return self._printStr(i, j - 1)
-
 
     def longestPalindrome(self, s: str) -> str:
         self.input = s
         strlen = len(s)
 
         self.dp = [ [-1] * strlen for idx in range(strlen) ]
-        self.pTb = [ [-1] * strlen for idx in range(strlen) ]
+        self.maxX = -1
+        self.maxY = -1
+        self.currentMaxLength = -1
 
         maxLen = self._findStr(0, strlen - 1)
-        maxStr = self._printStr(0, strlen - 1)
 
-        print('max length: %d' % maxLen)
-
-        return maxStr
+        return self.input[self.maxX:self.maxX + maxLen]
 
 def main():
     solution = Solution()
+    print(solution.longestPalindrome('abc'))
+    print(solution.longestPalindrome('ac'))
     print(solution.longestPalindrome('acbcbcbcabacasadwq'))
     print(solution.longestPalindrome('aa'))
     print(solution.longestPalindrome('a'))
     print(solution.longestPalindrome('bba123321abc'))
-
+    print(solution.longestPalindrome("abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababa"))
+    print(solution.longestPalindrome("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"))
 
 if __name__ == '__main__':
     main()
