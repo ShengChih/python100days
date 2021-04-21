@@ -27,7 +27,6 @@ class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
         sortedCandidates =  sorted(candidates)
         self.candidates = sortedCandidates
-        self.len = len(self.candidates)
         self.output = []
         self.check = {}
 
