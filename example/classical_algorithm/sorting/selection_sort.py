@@ -15,9 +15,7 @@ def selection_sort(data: list) -> list:
             loopIdx += 1
 
         if data[cmpIdx] > data[minIndex]:
-            tmp = data[cmpIdx]
-            data[cmpIdx] = data[minIndex]
-            data[minIndex] = tmp
+            data[cmpIdx], data[minIndex] = data[minIndex], data[cmpIdx]
 
         print(data)
 

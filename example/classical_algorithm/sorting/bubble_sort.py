@@ -8,9 +8,7 @@ def bubble_sort(data: list) -> list:
         idx = 0
         while idx < maxIdx:
             if data[idx] > data[idx + 1]:
-                tmp = data[idx]
-                data[idx] = data[idx + 1]
-                data[idx + 1] = tmp
+                data[idx], data[idx + 1] = data[idx + 1], data[idx]
             print(data)
             idx += 1
         maxIdx -= 1
