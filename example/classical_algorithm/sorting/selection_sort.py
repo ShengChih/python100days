@@ -1,11 +1,10 @@
 import random
 
-def selection_sort(data: list) -> list:
+def selection_sort(data: list):
     maxIndex = len(data) - 1
     minIdx = 0
 
     for cmpIdx in range(0, maxIndex):
-        print("Loop %s:" % cmpIdx)
         minIndex = cmpIdx + 1
         loopIdx = minIndex + 1
 
@@ -17,11 +16,10 @@ def selection_sort(data: list) -> list:
         if data[cmpIdx] > data[minIndex]:
             data[cmpIdx], data[minIndex] = data[minIndex], data[cmpIdx]
 
-        print(data)
-
-    return data
+    return
 
 if __name__ == '__main__':
     data = random.sample(range(0, 100), 10)
     print(data)
-    print(selection_sort(data))
+    selection_sort(data)
+    print(data)
