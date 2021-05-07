@@ -16,7 +16,7 @@ class Solution:
         for i in range(0, length):
             profit = 0
             for j in range(i+1, length):
-                profit = profit + (prices[j] - prices[j-1])
+                profit += (prices[j] - prices[j-1])
                 print("%d - %d = %d" % (i, j, profit))
                 if profit > max_profit:
                     max_profit = profit
