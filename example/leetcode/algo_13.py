@@ -45,21 +45,29 @@ class Solution:
         return res
 
     # method 3
-    def romanToInt(self, s: str) -> int:
+    def romanToInt3(self, s: str) -> int:
         res, prev = 0, 0
-        for i in s[::-1]:          # rev the s
+        for i in s[::-1]:
             if self.mapping[i] >= prev:
-                res += self.mapping[i]     # sum the value iff previous value same or more
+                res += self.mapping[i]
             else:
-                res -= self.mapping[i]     # substract when value is like "IV" --> 5-1, "IX" --> 10 -1 etc 
+                res -= self.mapping[i]
             prev = self.mapping[i]
         return res
+
+    # method 4
+    def romanToInt(self, s: str) -> int:
+        number = 0
+        s = s.replace("IV", "IIII").replace("IX", "VIIII")
+        s = s.replace("XL", "XXXX").replace("XC", "LXXXX")
+        s = s.replace("CD", "CCCC").replace("CM", "DCCCC")
+        for char in s:
+            number += self.mapping[char]
+        return number
 
 
 if __name__ == '__main__':
     s = Solution()
-    a = "123"
-    print(a[::-1])
     #print(s.romanToInt2("IV"))
     #print(s.romanToInt2("LIV"))
     #print(s.romanToInt2("CL"))
