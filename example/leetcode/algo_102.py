@@ -13,7 +13,6 @@ class Solution:
             return []
 
         res = []
-        level = 0
         queue = [root]
 
         while True:
